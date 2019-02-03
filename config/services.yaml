@@ -26,3 +26,6 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Services\Interfaces\WeatherInterface: '@App\Services\OpenWeatherMapService'
+    App\Services\Interfaces\RestInterface: '@App\Services\RestService'
