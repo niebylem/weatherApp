@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Place;
 use App\Entity\Weather;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +49,28 @@ class WeatherRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findNewestForPlace(Place $place)
+    {
+        $weather = $this->createQueryBuilder('w')
+            ->andWhere('w.place = :place')
+            ->setParameter('place', $place->getId())
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $weather;
+    }
+
+    public function saveNewWeather(Weather $weather) : bool
+    {
+        try {
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($weather);
+            $entityManager->flush();
+        } catch (ORMException $ex) {
+            // @TODO some error handling
+            return false;
+        }
+        return true;
+    }
 }

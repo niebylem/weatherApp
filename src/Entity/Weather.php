@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +23,10 @@ class Weather
     private $added;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\ManyToMany(targetEntity="WeatherCondition")
+     * @ORM\JoinTable(name="weathers_conditions",
+     *     joinColumns={@ORM\JoinColumn(name="weather_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="weather_condition_id", referencedColumnName="id")})
      */
     private $weatherConditions;
 
@@ -67,9 +71,53 @@ class Weather
     private $clouds;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Place", cascade={"persist"})
+     * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
      */
     private $place;
+
+    public function __construct(
+        Collection $weatherConditions,
+        $temperature,
+        int $pressure,
+        int $humidity,
+        $temperature_min,
+        $temperature_max,
+        int $visibility,
+        int $wind_speed,
+        int $clouds,
+        Place $place
+    ) {
+        $this->added = new \DateTime();
+        $this->weatherConditions = $weatherConditions;
+        $this->temperature = $temperature;
+        $this->pressure = $pressure;
+        $this->humidity = $humidity;
+        $this->temperature_min = $temperature_min;
+        $this->temperature_max = $temperature_max;
+        $this->visibility = $visibility;
+        $this->wind_speed = $wind_speed;
+        $this->clouds = $clouds;
+        $this->place = $place;
+    }
+
+    public static function createFromOWMResponse($weatherJson, Place $place, Collection $weatherConditions): self
+    {
+        $weather = new self(
+            $weatherConditions,
+            $weatherJson['main']['temp'],
+            $weatherJson['main']['pressure'],
+            $weatherJson['main']['humidity'],
+            $weatherJson['main']['temp_min'],
+            $weatherJson['main']['temp_max'],
+            $weatherJson['visibility'],
+            $weatherJson['wind']['speed'],
+            $weatherJson['clouds']['all'],
+            $place
+        );
+
+        return $weather;
+    }
 
     public function getId(): ?int
     {
@@ -88,16 +136,21 @@ class Weather
         return $this;
     }
 
-    public function getWeatherConditions(): ?array
+    public function getWeatherConditions(): Collection
     {
         return $this->weatherConditions;
     }
 
-    public function setWeatherConditions(array $weatherConditions): self
+    public function setWeatherConditions(Collection $weatherConditions): self
     {
         $this->weatherConditions = $weatherConditions;
 
         return $this;
+    }
+
+    public function addWeatherCondition(WeatherCondition $weatherCondition): void
+    {
+        $this->weatherConditions->add($weatherCondition);
     }
 
     public function getTemperature()
@@ -196,12 +249,12 @@ class Weather
         return $this;
     }
 
-    public function getPlace(): ?int
+    public function getPlace(): Place
     {
         return $this->place;
     }
 
-    public function setPlace(int $place): self
+    public function setPlace(Place $place): self
     {
         $this->place = $place;
 

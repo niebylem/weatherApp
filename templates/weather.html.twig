@@ -1,0 +1,6 @@
+{{ weather.place.name }}
+{{ weather.temperature }}
+{% for condition in weather.weatherConditions %}
+    {{ condition.main }}
+    {{ condition.description }}
+{% endfor %}
