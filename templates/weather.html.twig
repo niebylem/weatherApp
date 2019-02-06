@@ -1,6 +1,63 @@
-{{ weather.place.name }}
-{{ weather.temperature }}
-{% for condition in weather.weatherConditions %}
-    {{ condition.main }}
-    {{ condition.description }}
-{% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pogoda w {{ place.name }}</title>
+
+    <link rel="stylesheet" href="assets/style.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container" id="main">
+    <div class="row">
+        <div class="col-12">
+            <h1>Pogoda w {{ place.name }}!</h1>
+            <h1>Temperatura: {{ weather.temperature }}</h1>
+            <p class="lead">Warunki:<br>
+                {% for condition in weather.weatherConditions %}
+                    {{ condition.main }}<br>
+                    {{ condition.description }}<br>
+                    <img src="{{ condition.getIconUrl }}">
+                {% endfor %}
+            </p>
+        </div>
+        <div class="col-12">
+            <hr>
+            Pogoda zaktualizowana: {{ weather.added|date('Y-m-d H:i:s') }}
+        </div>
+        {% for forecast in forecasts %}
+        <div class="col-lg-4">
+            <h5>Pogoda {{ forecast.getDate|date("Y-m-d H:i") }}</h5>
+            Temp: {{ forecast.getTemperatureCelsiusString }}<br>
+            Wind: {{ forecast.getWindSpeedWithMPSUnit }}<br>
+            Snow: {{ forecast.getSnowWithUnit }}<br>
+            Rain: {{ forecast.getRainWithUnit }}<br>
+            Clouds: {{ forecast.getClouds }}<br>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+</body>
+</html>

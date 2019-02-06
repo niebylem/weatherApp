@@ -1,0 +1,11 @@
+body {
+    background: url("background.jpg") no-repeat;
+    background-size: cover;
+}
+
+#main {
+    background: #f6f6f6;
+    margin: 45px auto 45px auto;
+    border-radius: 25px;
+    padding: 35px;
+}

@@ -50,15 +50,15 @@ class WeatherRepository extends ServiceEntityRepository
     }
     */
 
-    public function findNewestForPlace(Place $place)
+    public function findNewestForPlace(Place $place) : Weather
     {
-        $weather = $this->createQueryBuilder('w')
-            ->andWhere('w.place = :place')
-            ->setParameter('place', $place->getId())
-            ->getQuery()
-            ->getOneOrNullResult();
+        $weather = $this->findBy(
+            ['place' => $place->getId()],
+            ['added' => 'DESC'],
+            1
+        );
 
-        return $weather;
+        return $weather[0] ?? null;
     }
 
     public function saveNewWeather(Weather $weather) : bool

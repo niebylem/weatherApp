@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -148,9 +149,13 @@ class Weather
         return $this;
     }
 
-    public function addWeatherCondition(WeatherCondition $weatherCondition): void
+    public function addWeatherCondition(WeatherCondition $weatherCondition): self
     {
-        $this->weatherConditions->add($weatherCondition);
+        if (!$this->weatherConditions->contains($weatherCondition)) {
+            $this->weatherConditions[] = $weatherCondition;
+        }
+
+        return $this;
     }
 
     public function getTemperature()
@@ -257,6 +262,15 @@ class Weather
     public function setPlace(Place $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function removeWeatherCondition(WeatherCondition $weatherCondition): self
+    {
+        if ($this->weatherConditions->contains($weatherCondition)) {
+            $this->weatherConditions->removeElement($weatherCondition);
+        }
 
         return $this;
     }

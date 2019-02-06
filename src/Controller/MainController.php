@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Entity\Weather;
 use App\Entity\WeatherCondition;
+use App\Entity\WeatherForecast;
 use App\Services\PlaceWeatherService;
 use App\Services\Interfaces\WeatherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class MainController extends AbstractController
 {
@@ -21,12 +21,16 @@ class MainController extends AbstractController
             $this->getDoctrine()->getRepository(Weather::class),
             $this->getDoctrine()->getRepository(Place::class),
             $this->getDoctrine()->getRepository(WeatherCondition::class),
+            $this->getDoctrine()->getRepository(WeatherForecast::class),
             $weatherService
         );
 
-        $weather = $placeWeatherRepository->getNewestWeatherForCity($place);
+        $weather = $placeWeatherRepository->getNewestWeatherForPlace($place);
+        $threeDayForecast = $placeWeatherRepository->getThreeDayWeatherForecastForPlace($place);
         return $this->render('weather.html.twig', [
-                'weather' => $weather
+                'place' => $place,
+                'weather' => $weather,
+                'forecasts' => $threeDayForecast
             ]);
     }
 }

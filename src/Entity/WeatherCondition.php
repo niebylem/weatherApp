@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class WeatherCondition
 {
+    const OWM_IMAGE_URL = 'http://openweathermap.org/img/w/';
+    const OWM_IMAGE_EXTENSION = '.png';
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,11 +45,11 @@ class WeatherCondition
         $this->icon = $icon;
     }
 
-    public function __toString()
-    {
-        return 'weather condition' . $this->id;
-    }
-
+    /**
+     * creates weather conditions from OWM response and returns ArrayCollection of WeatherConditions
+     * @param $weatherJson
+     * @return ArrayCollection
+     */
     public static function createFromOWMResponse($weatherJson): ArrayCollection
     {
         $weatherConditions = new ArrayCollection();
@@ -102,6 +104,11 @@ class WeatherCondition
     public function getIcon(): ?string
     {
         return $this->icon;
+    }
+
+    public function getIconUrl() : string
+    {
+        return static::OWM_IMAGE_URL . $this->icon . static::OWM_IMAGE_EXTENSION;
     }
 
     public function setIcon(string $icon): self
