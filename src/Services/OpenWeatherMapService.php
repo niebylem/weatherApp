@@ -11,7 +11,7 @@ class OpenWeatherMapService implements WeatherInterface
     const API_URL = 'http://api.openweathermap.org/data/2.5';
     const GET_WEATHER = '/weather?q=';
     const GET_HISTORY = '/forecast?q=';
-    const LOCALE = '&q=lang=pl&units=metric';
+    const LOCALE = '&lang=pl&units=metric';
     private $restService;
     private $apiKey;
 

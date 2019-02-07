@@ -21,6 +21,11 @@ class Place
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name_polish;
+
     public function __construct(int $id, string $name)
     {
         $this->id = $id;
@@ -40,6 +45,18 @@ class Place
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNamePolish(): ?string
+    {
+        return $this->name_polish;
+    }
+
+    public function setNamePolish(string $name): self
+    {
+        $this->name_polish = $name;
 
         return $this;
     }

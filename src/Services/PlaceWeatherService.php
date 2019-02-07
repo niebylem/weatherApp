@@ -53,6 +53,11 @@ class PlaceWeatherService
         return $weather;
     }
 
+    /**
+     * @param Place $place
+     * @return WeatherForecast|array|bool|\Doctrine\Common\Collections\Collection
+     * @throws \Exception
+     */
     public function getThreeDayWeatherForecastForPlace(Place $place)
     {
         $newestWeatherForecast = $this->weatherForecastRepository->findNewestForPlace($place);
@@ -62,14 +67,18 @@ class PlaceWeatherService
         if ($newestWeatherForecast === null || $newestWeatherForecast->getDate() < $threeDaysForward) {
             $weatherForecast = $this->weatherService->getFiveDayWeatherForecast($place->getName());
 
-            foreach ($weatherForecast['list'] as $index => $newWeather) {
-                // if current processed weather is newer than newest one in repository
-                if ($newestWeatherForecast === null ||
-                    (int)$newWeather['dt'] > $newestWeatherForecast->getTimestamp()
-                ) {
-                    $weatherForecast = WeatherForecast::createFromOWMResponse($newWeather, $place);
-                    $this->weatherForecastRepository->saveNewWeatherForecast($weatherForecast);
+            if ($weatherForecast) {
+                foreach ($weatherForecast['list'] as $index => $newWeather) {
+                    // if current processed weather is newer than newest one in repository
+                    if ($newestWeatherForecast === null ||
+                        (int)$newWeather['dt'] > $newestWeatherForecast->getTimestamp()
+                    ) {
+                        $weatherForecast = WeatherForecast::createFromOWMResponse($newWeather, $place);
+                        $this->weatherForecastRepository->saveNewWeatherForecast($weatherForecast);
+                    }
                 }
+            } else {
+                return false;
             }
         }
 

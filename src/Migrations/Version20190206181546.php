@@ -76,6 +76,7 @@ final class Version20190206181546 extends AbstractMigration
             'CREATE TABLE place (
                 id INT AUTO_INCREMENT NOT NULL,
                 name VARCHAR(255) NOT NULL,
+                name_polish VARCHAR(255) NULL;
                 PRIMARY KEY(id)
             ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB'
         );

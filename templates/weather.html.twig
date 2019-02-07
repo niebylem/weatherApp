@@ -26,13 +26,11 @@
 <div class="container" id="main">
     <div class="row">
         <div class="col-12">
-            <h1>Pogoda w {{ place.name }}!</h1>
-            <h1>Temperatura: {{ weather.temperature }}</h1>
-            <p class="lead">Warunki:<br>
+            <h1>Pogoda w {{ place.getNamePolish }}</h1>
+            <h2>Temperatura: <strong>{{ weather.getTemperatureCelsiusString }}</strong></h2>
+            <p class="lead">
                 {% for condition in weather.weatherConditions %}
-                    {{ condition.main }}<br>
-                    {{ condition.description }}<br>
-                    <img src="{{ condition.getIconUrl }}">
+                    {{ condition.description }} <img src="{{ condition.getIconUrl }}">
                 {% endfor %}
             </p>
         </div>
@@ -40,16 +38,6 @@
             <hr>
             Pogoda zaktualizowana: {{ weather.added|date('Y-m-d H:i:s') }}
         </div>
-        {% for forecast in forecasts %}
-        <div class="col-lg-4">
-            <h5>Pogoda {{ forecast.getDate|date("Y-m-d H:i") }}</h5>
-            Temp: {{ forecast.getTemperatureCelsiusString }}<br>
-            Wind: {{ forecast.getWindSpeedWithMPSUnit }}<br>
-            Snow: {{ forecast.getSnowWithUnit }}<br>
-            Rain: {{ forecast.getRainWithUnit }}<br>
-            Clouds: {{ forecast.getClouds }}<br>
-        </div>
-        {% endfor %}
     </div>
 
 

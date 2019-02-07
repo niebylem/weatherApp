@@ -8,12 +8,15 @@ use App\Repository\WeatherConditionRepository;
 use App\Repository\WeatherForecastRepository;
 use App\Repository\WeatherRepository;
 use App\Services\PlaceWeatherService;
+use JMS\Serializer\SerializerBuilder;
 use App\Services\Interfaces\WeatherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class MainController extends AbstractController
+class ApiController extends AbstractController
 {
     private $placeWeatherRepository;
+    private $serializer;
 
     public function __construct(
         WeatherInterface $weatherService,
@@ -29,18 +32,29 @@ class MainController extends AbstractController
             $weatherForecastRepository,
             $weatherService
         );
+        $this->serializer = SerializerBuilder::create()->build();
     }
 
     public function index()
     {
+        return $this->json(['status'=>'true']);
+    }
+
+    /**
+     * @Route("/api/threedayweather")
+     */
+    public function threeDayForecast()
+    {
         $placeRepository = $this->getDoctrine()->getRepository(Place::class);
         $place = $placeRepository->find(756135);
 
-        $weather = $this->placeWeatherRepository->getNewestWeatherForPlace($place);
+        $threeDayForecast = $this->placeWeatherRepository->getThreeDayWeatherForecastForPlace($place);
 
-        return $this->render('weather.html.twig', [
-                'place' => $place,
-                'weather' => $weather,
-            ]);
+        $forecastArray = [];
+        foreach ($threeDayForecast as $index => $forecast) {
+            $forecastArray[] = $this->serializer->toArray($forecast);
+        }
+
+        return $this->json($forecastArray);
     }
 }

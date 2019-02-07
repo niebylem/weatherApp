@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Weather
 {
+    private const HECTOPASCAL = 'hPa';
+    private const METERS = 'm';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -163,6 +165,11 @@ class Weather
         return $this->temperature;
     }
 
+    public function getTemperatureCelsiusString() : string
+    {
+        return $this->temperature . WeatherForecast::CELSIUS;
+    }
+
     public function setTemperature($temperature): self
     {
         $this->temperature = $temperature;
@@ -173,6 +180,11 @@ class Weather
     public function getPressure(): ?int
     {
         return $this->pressure;
+    }
+
+    public function getPressureWithUnit(): string
+    {
+        return $this->pressure . ' ' . static::HECTOPASCAL;
     }
 
     public function setPressure(int $pressure): self
@@ -199,6 +211,11 @@ class Weather
         return $this->temperature_min;
     }
 
+    public function getTemperatureMinCelsiusString() : string
+    {
+        return $this->temperature_min . WeatherForecast::CELSIUS;
+    }
+
     public function setTemperatureMin($temperature_min): self
     {
         $this->temperature_min = $temperature_min;
@@ -209,6 +226,11 @@ class Weather
     public function getTemperatureMax()
     {
         return $this->temperature_max;
+    }
+
+    public function getTemperatureMaxCelsiusString() : string
+    {
+        return $this->temperature_max . WeatherForecast::CELSIUS;
     }
 
     public function setTemperatureMax($temperature_max): self
@@ -223,6 +245,11 @@ class Weather
         return $this->visibility;
     }
 
+    public function getVisibilityWithUnit(): string
+    {
+        return $this->visibility . ' ' . static::METERS;
+    }
+
     public function setVisibility(int $visibility): self
     {
         $this->visibility = $visibility;
@@ -233,6 +260,11 @@ class Weather
     public function getWindSpeed()
     {
         return $this->wind_speed;
+    }
+
+    public function getWindSpeedWithUnit()
+    {
+        return $this->wind_speed . ' ' . WeatherForecast::METERS_PER_SECOND;
     }
 
     public function setWindSpeed($wind_speed): self

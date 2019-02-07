@@ -96,32 +96,6 @@ class WeatherForecast
         return $this->id;
     }
 
-    /**
-     * @return Collection|WeatherCondition[]
-     */
-    public function getWeatherConditions(): Collection
-    {
-        return $this->weatherConditions;
-    }
-
-    public function addWeatherCondition(WeatherCondition $weatherCondition): self
-    {
-        if (!$this->weatherConditions->contains($weatherCondition)) {
-            $this->weatherConditions[] = $weatherCondition;
-        }
-
-        return $this;
-    }
-
-    public function removeWeatherCondition(WeatherCondition $weatherCondition): self
-    {
-        if ($this->weatherConditions->contains($weatherCondition)) {
-            $this->weatherConditions->removeElement($weatherCondition);
-        }
-
-        return $this;
-    }
-
     private function setDateFromTimestamp(int $timestamp)
     {
         $this->date = new \DateTime();
@@ -131,6 +105,11 @@ class WeatherForecast
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
+    }
+
+    public function getTimestamp() : int
+    {
+        return $this->date->getTimestamp();
     }
 
     public function setDate(\DateTimeInterface $date): self
