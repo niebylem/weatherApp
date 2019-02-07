@@ -107,9 +107,19 @@ class WeatherForecast
         $this->date->setTimestamp($timestamp);
     }
 
-    public function getDate()
+    public function getDateHourAndMinute()
     {
         return $this->date->format('Y-m-d H:i');
+    }
+
+    public function getHourAndMinute()
+    {
+        return $this->date->format('H:i');
+    }
+
+    public function getDate()
+    {
+        return $this->date->format('Y-m-d');
     }
 
     public function getTimestamp() : int
@@ -155,7 +165,7 @@ class WeatherForecast
         return $this->wind_speed;
     }
 
-    public function getWindSpeedWithMPSUnit()
+    public function getWindSpeedWithUnit()
     {
         return $this->wind_speed . ' ' . static::METERS_PER_SECOND;
     }
@@ -191,7 +201,7 @@ class WeatherForecast
 
     public function getRainWithUnit() : string
     {
-        return $this->rain !== null ? $this->rain . ' ' . static::MM_PER_3H : '';
+        return $this->rain . ' ' . static::MM_PER_3H;
     }
 
     public function setRain($rain): self

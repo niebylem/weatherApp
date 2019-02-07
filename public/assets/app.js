@@ -4,7 +4,6 @@ function randomScalingFactor() {
 
 jQuery(function () {
     $.getJSON("/api/threedayweather", function (data) {
-        console.log(data);
         for (let i = 0; i < data.length; i++) {
             window.myLine.data.labels.push(data[i].date);
             window.myLine.data.datasets[0].data[i] = data[i].temperature;

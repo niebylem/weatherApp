@@ -1,0 +1,38 @@
+<div class="row visible-xs-block">
+    {% set currentDate = "" %}
+    {% for forecast in forecasts %}
+        {% if currentDate != forecast.getDate %}
+            <div class="col-xs-12 forecastSeparator">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{ forecast.getDate }}
+                    </div>
+                </div>
+            </div>
+            {% set currentDate = forecast.getDate %}
+        {% endif %}
+
+        <div class="col-xs-6">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item">
+                    <i class="far fa-clock"></i>&nbsp;{{ forecast.getHourAndMinute }}
+                </li>
+                <li class="list-group-item list-group-item">
+                    <i class="fas fa-thermometer-three-quarters"></i>&nbsp;{{ forecast.getTemperatureCelsiusString }}
+                </li>
+                <li class="list-group-item list-group-item">
+                    <i class="fas fa-wind"></i>&nbsp;{{ forecast.getWindSpeedWithUnit }}
+                </li>
+                <li class="list-group-item list-group-item">
+                    <i class="fas fa-tint"></i>&nbsp;{{ forecast.getRainWithUnit }}
+                </li>
+                <li class="list-group-item list-group-item">
+                    <i class="far fa-snowflake"></i>&nbsp;{{ forecast.getSnowWithUnit }}
+                </li>
+                <li class="list-group-item list-group-item">
+                    <i class="fas fa-cloud"></i>&nbsp;{{ forecast.getClouds }}%
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+</div>

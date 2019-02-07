@@ -13,3 +13,7 @@ body {
 #threeDayForecast {
     min-height: 500px;
 }
+
+.forecastSeparator {
+    margin-top: 25px;
+}

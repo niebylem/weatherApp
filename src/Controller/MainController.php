@@ -37,10 +37,12 @@ class MainController extends AbstractController
         $place = $placeRepository->find(756135);
 
         $weather = $this->placeWeatherRepository->getNewestWeatherForPlace($place);
+        $threeDayForecast = $this->placeWeatherRepository->getThreeDayWeatherForecastForPlace($place);
 
         return $this->render('weather.html.twig', [
                 'place' => $place,
                 'weather' => $weather,
+                'forecasts' => $threeDayForecast
             ]);
     }
 }

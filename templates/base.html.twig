@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ include('parts/styles.html.twig') }}
+    {% block styles %}{% endblock %}
+    <title>{% block site_title %}Pogoda w {{ place.getNamePolish }}{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+
+{{ include('parts/scripts.html.twig') }}
+</body>
 </html>
