@@ -13,6 +13,7 @@ class Weather
 {
     private const HECTOPASCAL = 'hPa';
     private const METERS = 'm';
+    private const PERCENT = '%';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -199,6 +200,11 @@ class Weather
         return $this->humidity;
     }
 
+    public function getHumidityWithUnit(): string
+    {
+        return $this->humidity . static::PERCENT;
+    }
+
     public function setHumidity(int $humidity): self
     {
         $this->humidity = $humidity;
@@ -277,6 +283,11 @@ class Weather
     public function getClouds(): ?int
     {
         return $this->clouds;
+    }
+
+    public function getCloudsWithUnit(): string
+    {
+        return $this->clouds . static::PERCENT;
     }
 
     public function setClouds(int $clouds): self

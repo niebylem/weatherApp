@@ -26,17 +26,34 @@
 <div class="container" id="main">
     <div class="row">
         <div class="col-12">
-            <h1>Pogoda w {{ place.getNamePolish }}</h1>
-            <h2>Temperatura: <strong>{{ weather.getTemperatureCelsiusString }}</strong></h2>
-            <p class="lead">
-                {% for condition in weather.weatherConditions %}
-                    {{ condition.description }} <img src="{{ condition.getIconUrl }}">
-                {% endfor %}
-            </p>
+            <div class="jumbotron">
+                <h1 class="display-4">Teraz w {{ place.getNamePolish }}</h1>
+                <p class="lead">
+                    {% for condition in weather.weatherConditions %}
+                        {{ condition.description }} <img src="{{ condition.getIconUrl }}" alt="{{ condition.main }}">
+                    {% endfor %}
+                </p>
+                <hr class="my-4">
+                <small>zaktualizowano: {{ weather.added|date('Y-m-d H:i:s') }}</small>
+            </div>
         </div>
+
+    </div>
+
+    <div class="row">
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Temperatura", 'body' : weather.getTemperatureCelsiusString }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Temperatura maks.", 'body' : weather.getTemperatureMaxCelsiusString }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Temperatura min.", 'body' : weather.getTemperatureMinCelsiusString }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Ciśnienie", 'body' : weather.getPressureWithUnit }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Wilgotność", 'body' : weather.getHumidityWithUnit }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Zachmurzenie", 'body' : weather.getCloudsWithUnit }) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Wiatr", 'body' : weather.getWindSpeedWithUnit}) }}
+        {{ include('parts/bootstrap/panel.html.twig', {'heading' : "Widoczność", 'body' : weather.getVisibilityWithUnit}) }}
+    </div>
+
+    <div class="row">
         <div class="col-12">
-            <hr>
-            Pogoda zaktualizowana: {{ weather.added|date('Y-m-d H:i:s') }}
+            <canvas id="threeDayForecast"></canvas>
         </div>
     </div>
 
@@ -47,5 +64,9 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="assets/app.js"></script>
 </body>
 </html>

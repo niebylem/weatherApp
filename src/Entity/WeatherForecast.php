@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,11 +17,13 @@ class WeatherForecast
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Exclude()
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\AccessType("public_method")
      */
     private $date;
 
@@ -37,11 +39,13 @@ class WeatherForecast
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=5, nullable=true)
+     * @Serializer\AccessType("public_method")
      */
     private $snow;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=5, nullable=true)
+     * @Serializer\AccessType("public_method")
      */
     private $rain;
 
@@ -53,6 +57,7 @@ class WeatherForecast
     /**
      * @ORM\ManyToOne(targetEntity="Place", cascade={"persist"})
      * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+     * @Serializer\Exclude()
      */
     private $place;
 
@@ -102,14 +107,19 @@ class WeatherForecast
         $this->date->setTimestamp($timestamp);
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate()
     {
-        return $this->date;
+        return $this->date->format('Y-m-d H:i');
     }
 
     public function getTimestamp() : int
     {
         return $this->date->getTimestamp();
+    }
+
+    public function getFormattedDate(): string
+    {
+        return $this->date->format('H:i');
     }
 
     public function setDate(\DateTimeInterface $date): self
@@ -159,7 +169,7 @@ class WeatherForecast
 
     public function getSnow()
     {
-        return $this->snow;
+        return $this->snow ?? 0;
     }
 
     public function getSnowWithUnit() : string
@@ -176,7 +186,7 @@ class WeatherForecast
 
     public function getRain()
     {
-        return $this->rain;
+        return $this->rain ?? 0;
     }
 
     public function getRainWithUnit() : string

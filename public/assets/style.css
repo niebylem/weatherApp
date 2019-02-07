@@ -6,6 +6,10 @@ body {
 #main {
     background: #f6f6f6;
     margin: 45px auto 45px auto;
-    border-radius: 25px;
+    border-radius: 6px;
     padding: 35px;
+}
+
+#threeDayForecast {
+    min-height: 500px;
 }
