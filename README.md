@@ -17,18 +17,18 @@ OPEN_WEATHER_MAP_API_KEY=YOUR_KEY
 
 ### Installing
 To run app, proceed to its main directory in terminal and first of all install dependencies:
- ```
- composer install
- ```
- 
- Then create database (with name provided in .env file)
- ```
- php bin/console doctrine:database:create
- ```
- 
- To migrate application tables structure run:
- ```
- php bin/console doctrine:database:create
- ```
- 
- That's it! Application is ready to use.
+```
+composer install
+```
+
+Then create database (with name provided in .env file)
+```
+php bin/console doctrine:database:create
+```
+
+To migrate application tables structure run:
+```
+php bin/console doctrine:migrations:migrate
+```
+
+That's it! Application is ready to use.
