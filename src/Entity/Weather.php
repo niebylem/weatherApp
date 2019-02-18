@@ -1,8 +1,8 @@
-<?php declare(strict_types = 1);
+<?php /** @noinspection PhpUnhandledExceptionInspection */
+declare(strict_types = 1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -82,13 +82,13 @@ class Weather
 
     public function __construct(
         Collection $weatherConditions,
-        $temperature,
+        float $temperature,
         int $pressure,
         int $humidity,
-        $temperature_min,
-        $temperature_max,
+        float $temperature_min,
+        float $temperature_max,
         int $visibility,
-        int $wind_speed,
+        float $wind_speed,
         int $clouds,
         Place $place
     ) {

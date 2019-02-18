@@ -8,9 +8,8 @@ use App\Services\Interfaces\WeatherInterface;
 class OpenWeatherMapService implements WeatherInterface
 {
     const API_URL = 'http://api.openweathermap.org/data/2.5';
-    const GET_WEATHER = '/weather?q=';
-    const GET_HISTORY = '/forecast?q=';
-    const LOCALE = '&lang=pl&units=metric';
+    const GET_WEATHER = '/weather?';
+    const GET_HISTORY = '/forecast?';
     private $restService;
     private $apiKey;
 
@@ -27,8 +26,8 @@ class OpenWeatherMapService implements WeatherInterface
      */
     public function getWeather(string $city = 'Warsaw')
     {
-        $requestedWeather = $this->restService->get(static::API_URL . static::GET_WEATHER . $city .
-            '&appid=' . $this->apiKey . static::LOCALE);
+        $query = $this->getQuery($city);
+        $requestedWeather = $this->restService->get(static::API_URL . static::GET_WEATHER . $query);
 
         return $requestedWeather;
     }
@@ -40,9 +39,26 @@ class OpenWeatherMapService implements WeatherInterface
      */
     public function getFiveDayWeatherForecast(string $city = 'Warsaw')
     {
-        $requestedWeatherForecast = $this->restService->get(static::API_URL . static::GET_HISTORY . $city .
-            '&appid=' . $this->apiKey . static::LOCALE);
+        $query = $this->getQuery($city);
+        $requestedWeatherForecast = $this->restService->get(static::API_URL . static::GET_HISTORY . $query);
 
         return $requestedWeatherForecast;
+    }
+
+    /**
+     * get prepared query url with locales, api key and city name
+     * @param string $city
+     * @return string
+     */
+    private function getQuery(string $city): string
+    {
+        $query = http_build_query([
+            'q' => $city,
+            'lang' => 'pl',
+            'units' => 'metric',
+            'appid' => $this->apiKey
+        ]);
+
+        return $query;
     }
 }
