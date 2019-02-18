@@ -5,12 +5,13 @@ namespace App\Services;
 use App\Services\Interfaces\RestInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class RestService implements RestInterface
 {
     private $client;
-    private $lastReponse;
-    private $lastReponseJson;
+    private $lastResponse;
+    private $lastResponseJson;
 
     public function __construct()
     {
@@ -26,17 +27,19 @@ class RestService implements RestInterface
     public function get(string $requestString)
     {
         try {
-            $this->lastReponse = $this->client->request('GET', $requestString, []);
+            $this->lastResponse = $this->client->request('GET', $requestString, []);
         } catch (ConnectException $ex) {
             return false;
-        }
-
-        if ($this->lastReponse->getStatusCode() !== 200) {
+        } catch (GuzzleException $e) {
             return false;
         }
-        $this->lastReponseJson = json_decode($this->lastReponse->getBody()->getContents(), true);
 
-        return $this->lastReponseJson;
+        if ($this->lastResponse->getStatusCode() !== 200) {
+            return false;
+        }
+        $this->lastResponseJson = json_decode($this->lastResponse->getBody()->getContents(), true);
+
+        return $this->lastResponseJson;
     }
 
     public function post()
