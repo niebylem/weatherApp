@@ -94,7 +94,7 @@ final class Version20190206181546 extends AbstractMigration
             FOREIGN KEY (place_id) REFERENCES place (id)'
         );
         $this->addSql(
-            'INSERT INTO weather_db.place
+            'INSERT INTO place
                 (id, name, name_polish)
                 VALUES(756135, \'Warsaw\', \'Warszawa\');'
         );
