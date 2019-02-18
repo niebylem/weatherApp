@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Services;
 
@@ -34,7 +34,7 @@ class RestService implements RestInterface
         if ($this->lastReponse->getStatusCode() !== 200) {
             return false;
         }
-        $this->lastReponseJson = json_decode($this->lastReponse->getBody(), true);
+        $this->lastReponseJson = json_decode($this->lastReponse->getBody()->getContents(), true);
 
         return $this->lastReponseJson;
     }

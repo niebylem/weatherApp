@@ -9,7 +9,7 @@ Application needs an server with PHP, MySql database and Composer to run.
 To configure it, edit .env file and set proper DB credentials:
 ```
 DATABASE_URL=mysql://db_user:db_password@localhost:3306/db_name
-``` 
+```
 Also, if available, put your Open Weather Map API KEY. Example key is already set up.
 ```
 OPEN_WEATHER_MAP_API_KEY=YOUR_KEY
@@ -32,3 +32,10 @@ php bin/console doctrine:migrations:migrate
 ```
 
 That's it! Application is ready to use.
+
+### Coding
+To run PHP Code Sniffer check or fix run:
+```
+composer check-style
+composer fix-style
+```

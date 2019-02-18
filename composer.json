@@ -8,6 +8,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "jms/serializer-bundle": "^3.1",
         "sensio/framework-extra-bundle": "^5.1",
+        "slevomat/coding-standard": "~4.0",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dependency-injection": "4.2.*",
@@ -70,7 +71,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "check-style": "phpcs -p --standard=ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1  src tests"
     },
     "conflict": {
         "symfony/symfony": "*"

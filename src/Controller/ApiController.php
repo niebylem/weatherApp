@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -11,6 +11,7 @@ use App\Services\PlaceWeatherService;
 use JMS\Serializer\SerializerBuilder;
 use App\Services\Interfaces\WeatherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController
@@ -35,7 +36,7 @@ class ApiController extends AbstractController
         $this->serializer = SerializerBuilder::create()->build();
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         return $this->json(['status'=>'true']);
     }
@@ -43,7 +44,7 @@ class ApiController extends AbstractController
     /**
      * @Route("/api/threedayweather")
      */
-    public function threeDayForecast()
+    public function threeDayForecast(): JsonResponse
     {
         $placeRepository = $this->getDoctrine()->getRepository(Place::class);
         $place = $placeRepository->find(756135);
